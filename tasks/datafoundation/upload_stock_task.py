@@ -2,10 +2,9 @@
 import logging
 from multiprocessing import Pool
 
-from cv.core.common import constants
-from cv.core.util import datastore_util
-from cv.core.datasources import connectionBD as ds
-from cv.core.repository.datastore import store_stock_repository
+from services.deliverydb import delivery_db_service as ds
+from services.datastore import datastore_builder
+from services.datastore.datafoundation import store_stock_repository
 
 # logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', filename='example.log')
 # create logger
@@ -27,7 +26,7 @@ if __name__ == '__main__':
     datastore_pool = Pool(5)
 
     # file = [[1, 1, 6], [1, 2, 3], [1, 3, 0], [1, 4, 1], [1, 5, 2], [2, 5, 2]]
-    file = ds.exeQuery(constants.SQL_GET_STORE_STOCK)
+    file = ds.executeQuery(ds.SQL_GET_STORE_STOCK)
 
     items = {}
 
@@ -50,7 +49,7 @@ if __name__ == '__main__':
 
     # list1 = algolia_util.build_algolia_request(items)
     # logging.info(list1)
-    list2 = datastore_util.build_datastore_request(items)
+    list2 = datastore_builder.build_datastore_request(items)
     # logging.info(list2)
     # algolia_pool.map(product_repository.update, list1)
     datastore_pool.map(store_stock_repository.update, list2)
