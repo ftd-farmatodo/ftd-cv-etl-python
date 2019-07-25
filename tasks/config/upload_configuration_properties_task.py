@@ -2,9 +2,8 @@
 import logging
 from multiprocessing import Pool
 
-from cv.core.common import constants
-from cv.core.datasources import connectionBD as ds
-from cv.core.repository.datastore.config import configuration_property_repository
+from services.deliverydb import delivery_db_service as ds
+from services.datastore.config import configuration_property_repository
 
 logging.basicConfig(level=logging.DEBUG)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')
@@ -13,7 +12,7 @@ if __name__ == '__main__':
 
     pool = Pool(5)
 
-    rows = ds.exeQuery(constants.SQL_GET_CONFIGURATION_PROPERTIES)
+    rows = ds.executeQuery(ds.SQL_GET_CONFIGURATION_PROPERTIES)
 
     records = []
 

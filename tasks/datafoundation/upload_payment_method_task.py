@@ -2,9 +2,8 @@
 import logging
 from multiprocessing import Pool
 
-from cv.core.common import constants
-from cv.core.datasources import connectionBD as ds
-from cv.core.repository.datastore.datafoundation import payment_method_repository
+from services.deliverydb import delivery_db_service as ds
+from services.datastore.datafoundation import payment_method_repository
 
 logging.basicConfig(level=logging.DEBUG)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')
@@ -13,7 +12,7 @@ if __name__ == '__main__':
 
     pool = Pool(5)
 
-    rows = ds.exeQuery(constants.SQL_GET_PAYMENT_METHODS)
+    rows = ds.executeQuery(ds.SQL_GET_PAYMENT_METHODS)
 
     records = []
 

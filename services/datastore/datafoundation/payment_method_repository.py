@@ -4,7 +4,7 @@ import logging
 
 import requests
 
-from cv.core.common import constants
+from services.datastore import constants
 
 logging.basicConfig(level=logging.DEBUG)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')

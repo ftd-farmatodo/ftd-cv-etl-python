@@ -2,7 +2,7 @@
 import json
 import logging
 import requests
-from cv.core.common import constants
+from services.datastore import constants
 
 # logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', filename='example.log')
 # create logger
