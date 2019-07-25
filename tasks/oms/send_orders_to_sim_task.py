@@ -18,7 +18,7 @@ for count, row in enumerate(rows):
         "skipAttemptsValidation":  True
     }
     try:
-        response = oms_service.send_order_to_sim(request).json()
+        response = oms_service.send_order_to_sim(request)
         record = {
             "orderId": row[0],
             "code":  response['code'],
