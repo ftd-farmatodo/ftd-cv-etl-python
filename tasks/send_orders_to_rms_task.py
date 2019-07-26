@@ -10,7 +10,7 @@ logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 tracing = []
 
 # consultar las ordenes que se deben reimpulsar a RMS
-rows = [[505774]]
+rows = [[6608825]]
 # rows = delivery_db_service.get_orders_to_send_to_rms()
 
 for count, row in enumerate(rows):
