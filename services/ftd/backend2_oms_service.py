@@ -13,14 +13,13 @@ def send_order_to_sim(request):
     url = OMS_BASE_URL + '/v3/order/sim'
     response = requests.post(url, data=json.dumps(request), headers={'content-type': 'application/json'})
     logging.debug("method: sen_order_to_sim() -> Response: " + json.dumps(response.json()))
-    return response.json()
-    # if response.status_code == 200:
-    #     return response.json()
-    # else:
-    #     return json.dumps({
-    #         "code":  "ERROR",
-    #         "message": "LLLLLL"
-    #     })
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return json.dumps({
+            "code": "Exception",
+            "message": ""
+        })
 
 
 def send_order_to_rms(request):
@@ -28,4 +27,10 @@ def send_order_to_rms(request):
     url = OMS_BASE_URL + '/v3/order/rms'
     response = requests.post(url, data=json.dumps(request), headers={'content-type': 'application/json'})
     logging.debug("method: send_order_to_rms() -> Response: " + json.dumps(response.json()))
-    return response
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return json.dumps({
+            "code": "Exception",
+            "message": ""
+        })
