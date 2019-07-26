@@ -6,6 +6,8 @@ logging.basicConfig(level=logging.DEBUG)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 
 OMS_BASE_URL = 'http://10.193.0.9:11103/DeliveryWS'
+# OMS_BASE_URL = 'http://10.232.8.2:11103/DeliveryWS'
+# OMS_BASE_URL = 'http://10.193.0.2:11103/DeliveryWS'
 
 
 def send_order_to_rms(request):
