@@ -4,7 +4,7 @@ import logging
 
 from services.ftd import core2_oms_service, delivery_db_service
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 
 tracing = []
