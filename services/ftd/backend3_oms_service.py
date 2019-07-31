@@ -3,7 +3,7 @@ import logging
 
 import requests
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 
 BACKEND3_OMS_BASE_URL = 'http://localhost:8080/oms'
