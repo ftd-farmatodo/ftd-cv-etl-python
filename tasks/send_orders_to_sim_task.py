@@ -11,6 +11,7 @@ tracing = []
 
 # consultar las ordenes que se deben reimpulsar a SIM
 rows = delivery_db_service.get_orders_to_send_to_sim()
+logging.info("# de ordenes: " + str(len(rows)))
 
 for count, row in enumerate(rows):
     try:
