@@ -23,21 +23,31 @@ def connect():
 
 
 def get_orders_to_send_to_rms():
-    return [[6608825]]
-    # query = """ SELECT DISTINCT (ORDER_ID)
-    #             FROM BDOM.ORDER_RMS_LOG
-    #             WHERE 0=0
-    #                 --AND STATUS IN ('ERROR')
-    #                 AND ORDER_ID IN (5101527)"""
-    # con = connect()
-    # cursor = con.cursor()
-    # res = cursor.execute(query).fetchall()
-    # con.close()
-    # return res
+    # return [[6608825]]
+    query = """ SELECT DISTINCT ( ORL.order_id ) ,ORL.STATUS
+                FROM   bdom.ORDER_RMS_LOG ORL
+                       INNER JOIN (
+                                    SELECT
+                                      ROW_NUMBER() OVER ( partition BY ORL_T.order_id ORDER BY ORL_T.id DESC) I,
+                                      ORL_T.order_id,
+                                      ORL_T.status
+                                    FROM   bdom.ORDER_RMS_LOG ORL_T
+                                    ORDER  BY ORL_T.order_id
+                                  ) LAST_STATUS
+                         ON ORL.order_id = LAST_STATUS.order_id
+                            AND LAST_STATUS.i = 1
+                            AND LAST_STATUS.status IN ( 'ERROR', 'EXHAUSTED_ATTEMPSTS', 'DISABLED' )
+                            AND ORL.status = LAST_STATUS.status
+                ORDER  BY ORL.order_id"""
+    con = connect()
+    cursor = con.cursor()
+    res = cursor.execute(query).fetchall()
+    con.close()
+    return res
 
 
 def get_orders_to_send_to_sim():
-    # return [[6608825],[6628250],[6721144],[6558629],[6552674],[6656303],[6538171],[6591795],[6726869],[6623239],[6572228],[6603300],[6570760],[6625779],[6538171],[6561210],[6715689],[6520081],[6721633],[6609608],[6682530],[6522244],[6604912],[6601962],[6565727],[6562113],[6613387],[6494695],[6618333],[6726816],[6726866],[6453862],[6608672],[6542380],[6624867],[6560374],[6567923],[6556086],[6632317],[6526741],[6643233],[6570582],[6627992],[6607526],[6613438],[6597145],[6427901],[6624091],[6427972],[6719316],[6726829],[6478587],[6608225],[6419248],[6561210],[6556086],[6602445],[6726848],[6458898],[6498300],[6726894]]
+    # return [[6608825]]
     query = """ SELECT DISTINCT ( OSL.order_id ) ,OSL.STATUS
                 FROM   bdom.ORDER_SIM_LOG OSL
                        INNER JOIN (
@@ -50,7 +60,7 @@ def get_orders_to_send_to_sim():
                                   ) LAST_STATUS
                          ON OSL.order_id = LAST_STATUS.order_id
                             AND LAST_STATUS.i = 1
-                            AND LAST_STATUS.status IN ( 'ERROR', 'EXHAUSTED_ATTEMPSTS' )
+                            AND LAST_STATUS.status IN ( 'ERROR', 'EXHAUSTED_ATTEMPSTS', 'DISABLED' )
                             AND OSL.status = LAST_STATUS.status
                 ORDER  BY OSL.order_id"""
     con = connect()
