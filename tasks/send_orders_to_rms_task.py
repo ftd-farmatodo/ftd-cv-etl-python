@@ -2,7 +2,8 @@
 import json
 import logging
 
-from services.ftd import core2_oms_service, delivery_db_service
+from services.ftd import delivery_db_service
+from services.ftd import core2_oms_service
 
 logging.basicConfig(level=logging.INFO)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')
