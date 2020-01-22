@@ -11,9 +11,11 @@ os.chdir(os.path.dirname(__file__))
 ORACLE_CLIENT = str('C:\Oracle\instantclient_12_2')
 ORACLE_USER = "delivery"
 ORACLE_PASS = "Farmat0d0"
-# ORACLE_DSN = "10.193.0.10/delivery"
-# ORACLE_DSN = "10.232.8.3/delivery"
-ORACLE_DSN = "10.193.0.3/delivery"
+# ORACLE_DSN = "10.193.0.10/delivery"  # develop
+ORACLE_DSN = "10.232.8.3/delivery"  # sandbox
+
+
+# ORACLE_DSN = "10.193.0.3/delivery"  # production
 
 
 def connect():
@@ -78,3 +80,45 @@ def get_customers_20_to_send_to_atom():
     res = cursor.execute(query).fetchall()
     con.close()
     return res
+
+
+def update_store_stock_full_price(store_id, item_id, full_price):
+    try:
+        statement = """UPDATE BDOS.STORE_STOCK SET FULL_PRICE = :fullPrice WHERE STORE_ID = :store_id AND ITEM = :item_id"""
+        con = connect()
+        cur = con.cursor()
+        cur.execute(statement, (full_price, store_id, item_id))
+        con.commit()
+        con.close()
+        return True
+    except Exception as e:
+        print("Error al ejecutar insert con parametros -> " + e)
+        return False
+
+
+def update_store_stock_stock(store_id, item_id, stock):
+    try:
+        statement = """UPDATE BDOS.STORE_STOCK SET STOCK = :stock WHERE STORE_ID = :store_id AND ITEM = :item_id"""
+        con = connect()
+        cur = con.cursor()
+        cur.execute(statement, (stock, store_id, item_id))
+        con.commit()
+        con.close()
+        return True
+    except Exception as e:
+        print("Error al ejecutar insert con parametros -> " + e)
+        return False
+
+
+def update_store_stock(store_id, item_id, stock, full_price):
+    try:
+        statement = """UPDATE BDOS.STORE_STOCK SET FULL_PRICE = :full_price, STOCK = :stock WHERE STORE_ID = :store_id AND ITEM = :item_id"""
+        con = connect()
+        cur = con.cursor()
+        cur.execute(statement, (full_price, stock, store_id, item_id))
+        con.commit()
+        con.close()
+        return True
+    except Exception as e:
+        print("Error al ejecutar insert con parametros -> " + e)
+        return False

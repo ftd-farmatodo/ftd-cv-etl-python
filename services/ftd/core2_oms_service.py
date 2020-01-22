@@ -11,6 +11,8 @@ logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 # CORE2_DELIVERY_BASE_URL = 'http://10.232.8.2:11103/DeliveryWS'
 CORE2_DELIVERY_BASE_URL = 'http://10.193.0.2:11103/DeliveryWS'
 CORE2_CUSTOMER_BASE_URL = 'http://10.193.0.2:11103/CustomerWS'
+CORE2_DELIVERY_BASE_URL = 'http://10.193.0.6:11103/DeliveryWS'
+# CORE2_DELIVERY_BASE_URL = 'http://10.193.0.2:11103/DeliveryWS'
 
 
 def send_order_to_rms(request):
