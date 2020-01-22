@@ -10,6 +10,7 @@ logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 # CORE2_DELIVERY_BASE_URL = 'http://10.193.0.9:11103/DeliveryWS'
 # CORE2_DELIVERY_BASE_URL = 'http://10.232.8.2:11103/DeliveryWS'
 CORE2_DELIVERY_BASE_URL = 'http://10.193.0.2:11103/DeliveryWS'
+CORE2_CUSTOMER_BASE_URL = 'http://10.193.0.2:11103/CustomerWS'
 
 
 def send_order_to_rms(request):
@@ -35,6 +36,22 @@ def send_order_to_sim(request):
         logging.debug("method: send_order_to_sim() -> URL Service: " + url)
         response = requests.post(url, data=json.dumps(request), headers={'content-type': 'application/json'})
         logging.debug("method: sen_order_to_sim() -> Response: " + json.dumps(response.json()))
+        return response.json()
+    except Exception as ex:
+        logging.exception(ex)
+        return json.dumps({
+            "code": "Exception",
+            "message": ex.message
+        })
+
+
+def send_customer_to_atom(request):
+    logging.debug("method: send_customer_to_atom() -> Request: " + str(request))
+    try:
+        url = CORE2_CUSTOMER_BASE_URL + '/v1/customer/atom/send'
+        logging.debug("method: send_customer_to_atom() -> URL Service: " + url)
+        response = requests.put(url, data=json.dumps(request), headers={'content-type': 'application/json'})
+        logging.debug("method: send_customer_to_atom() -> Response: " + json.dumps(response.json()))
         return response.json()
     except Exception as ex:
         logging.exception(ex)
