@@ -16,10 +16,10 @@ ORACLE_DSN = "10.232.8.3/delivery"  # sandbox
 # ORACLE_DSN = "10.193.0.3/delivery"  # production
 
 
-def connect():
+def get_connection():
     os.chdir(ORACLE_CLIENT)
-    conn = cx_Oracle.connect(user=ORACLE_USER, password=ORACLE_PASS, dsn=ORACLE_DSN)
-    return conn
+    connection = cx_Oracle.connect(user=ORACLE_USER, password=ORACLE_PASS, dsn=ORACLE_DSN)
+    return connection
 
 
 def get_orders_to_send_to_rms():
@@ -39,10 +39,10 @@ def get_orders_to_send_to_rms():
                             AND LAST_STATUS.status IN ( 'ERROR', 'EXHAUSTED_ATTEMPSTS', 'DISABLED' )
                             AND ORL.status = LAST_STATUS.status
                 ORDER  BY ORL.order_id"""
-    con = connect()
-    cursor = con.cursor()
+    connection = get_connection()
+    cursor = connection.cursor()
     res = cursor.execute(query).fetchall()
-    con.close()
+    connection.close()
     return res
 
 
@@ -63,70 +63,51 @@ def get_orders_to_send_to_sim():
                             AND LAST_STATUS.status IN ( 'ERROR', 'EXHAUSTED_ATTEMPSTS', 'DISABLED' )
                             AND OSL.status = LAST_STATUS.status
                 ORDER  BY OSL.order_id"""
-    con = connect()
-    cursor = con.cursor()
+    connection = get_connection()
+    cursor = connection.cursor()
     res = cursor.execute(query).fetchall()
-    con.close()
+    connection.close()
     return res
 
 
 def get_customers_20_to_send_to_atom():
     # return [[24030]]
     query = """ SELECT ID FROM BDUCD.CUSTOMER WHERE ATOM_ID IS NULL AND ROWNUM <= 10000 """
-    con = connect()
-    cursor = con.cursor()
+    connection = get_connection()
+    cursor = connection.cursor()
     res = cursor.execute(query).fetchall()
-    con.close()
+    connection.close()
     return res
 
 
 def get_stores():
     # return [[24030]]
     query = """ SELECT ID, OR_ID FROM BDOS.STORE WHERE OR_ID IS NOT NULL ORDER BY ID ASC """
-    con = connect()
-    cursor = con.cursor()
+    connection = get_connection()
+    cursor = connection.cursor()
     res = cursor.execute(query).fetchall()
-    con.close()
+    connection.close()
     return res
 
 
-def update_store_stock_full_price(store_id, item_id, full_price):
-    try:
-        statement = """UPDATE BDOS.STORE_STOCK SET FULL_PRICE = :fullPrice WHERE STORE_ID = :store_id AND ITEM = :item_id"""
-        con = connect()
-        cur = con.cursor()
-        cur.execute(statement, (full_price, store_id, item_id))
-        con.commit()
-        con.close()
-        return True
-    except Exception as e:
-        print("Error al ejecutar insert con parametros -> " + e)
-        return False
+def update_store_stock_full_price(connection, store_id, item_id, full_price):
+    statement = """UPDATE BDOS.STORE_STOCK SET FULL_PRICE = :fullPrice WHERE STORE_ID = :store_id AND ITEM = :item_id"""
+    connection = get_connection()
+    cur = connection.cursor()
+    cur.execute(statement, (full_price, store_id, item_id))
+    return True
 
 
-def update_store_stock_stock(store_id, item_id, stock):
-    try:
-        statement = """UPDATE BDOS.STORE_STOCK SET STOCK = :stock WHERE STORE_ID = :store_id AND ITEM = :item_id"""
-        con = connect()
-        cur = con.cursor()
-        cur.execute(statement, (stock, store_id, item_id))
-        con.commit()
-        con.close()
-        return True
-    except Exception as e:
-        print("Error al ejecutar insert con parametros -> " + e)
-        return False
+def update_store_stock_stock(connection, store_id, item_id, stock):
+    statement = """UPDATE BDOS.STORE_STOCK SET STOCK = :stock WHERE STORE_ID = :store_id AND ITEM = :item_id"""
+    connection = get_connection()
+    cur = connection.cursor()
+    cur.execute(statement, (stock, store_id, item_id))
+    return True
 
 
-def update_store_stock(store_id, item_id, stock, full_price):
-    try:
-        statement = """UPDATE BDOS.STORE_STOCK SET FULL_PRICE = :full_price, STOCK = :stock WHERE STORE_ID = :store_id AND ITEM = :item_id"""
-        con = connect()
-        cur = con.cursor()
-        cur.execute(statement, (full_price, stock, store_id, item_id))
-        con.commit()
-        con.close()
-        return True
-    except Exception as e:
-        print("Error al ejecutar insert con parametros -> " + e)
-        return False
+def update_store_stock(connection, store_id, item_id, stock, full_price):
+    statement = """UPDATE BDOS.STORE_STOCK SET FULL_PRICE = :full_price, STOCK = :stock WHERE STORE_ID = :store_id AND ITEM = :item_id"""
+    cur = connection.cursor()
+    cur.execute(statement, (full_price, stock, store_id, item_id))
+    return True

@@ -6,6 +6,8 @@ from services.delivery import delivery_db_service
 logging.basicConfig(level=logging.INFO)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 
+delivery_db_connection = delivery_db_service.get_connection()
+
 tracing = []
 
 # consultar las ordenes que se deben reimpulsar a SIM
@@ -23,9 +25,12 @@ for item in items:
         try:
             record = (store, item, 100)
             logging.info(record)
-            delivery_db_service.update_store_stock_stock(store, item, 100)
+            delivery_db_service.update_store_stock_stock(delivery_db_connection, store, item, 100)
             tracing.append(record)
+            delivery_db_connection.commit()
         except Exception as ex:
             logging.exception(ex)
+            delivery_db_connection.rollback()
 
+delivery_db_connection.close()
 # logging.info(tracing)
