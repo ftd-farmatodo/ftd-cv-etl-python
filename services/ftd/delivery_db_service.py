@@ -25,7 +25,7 @@ def connect():
 
 
 def get_orders_to_send_to_rms():
-    # return [[6608825]]
+    # return [[6783292]]
     query = """ SELECT DISTINCT ( ORL.order_id ) ,ORL.STATUS
                 FROM   bdom.ORDER_RMS_LOG ORL
                        INNER JOIN (
@@ -49,7 +49,7 @@ def get_orders_to_send_to_rms():
 
 
 def get_orders_to_send_to_sim():
-    # return [[6608825]]
+    # return [[6783292]]
     query = """ SELECT DISTINCT ( OSL.order_id ) ,OSL.STATUS
                 FROM   bdom.ORDER_SIM_LOG OSL
                        INNER JOIN (
@@ -65,6 +65,16 @@ def get_orders_to_send_to_sim():
                             AND LAST_STATUS.status IN ( 'ERROR', 'EXHAUSTED_ATTEMPSTS', 'DISABLED' )
                             AND OSL.status = LAST_STATUS.status
                 ORDER  BY OSL.order_id"""
+    con = connect()
+    cursor = con.cursor()
+    res = cursor.execute(query).fetchall()
+    con.close()
+    return res
+
+
+def get_customers_20_to_send_to_atom():
+    # return [[24030]]
+    query = """ SELECT ID FROM BDUCD.CUSTOMER WHERE ATOM_ID IS NULL AND ROWNUM <= 10000 """
     con = connect()
     cursor = con.cursor()
     res = cursor.execute(query).fetchall()
