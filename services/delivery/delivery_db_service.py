@@ -13,8 +13,6 @@ ORACLE_USER = "delivery"
 ORACLE_PASS = "Farmat0d0"
 # ORACLE_DSN = "10.193.0.10/delivery"  # develop
 ORACLE_DSN = "10.232.8.3/delivery"  # sandbox
-
-
 # ORACLE_DSN = "10.193.0.3/delivery"  # production
 
 
@@ -75,6 +73,16 @@ def get_orders_to_send_to_sim():
 def get_customers_20_to_send_to_atom():
     # return [[24030]]
     query = """ SELECT ID FROM BDUCD.CUSTOMER WHERE ATOM_ID IS NULL AND ROWNUM <= 10000 """
+    con = connect()
+    cursor = con.cursor()
+    res = cursor.execute(query).fetchall()
+    con.close()
+    return res
+
+
+def get_stores():
+    # return [[24030]]
+    query = """ SELECT ID, OR_ID FROM BDOS.STORE WHERE OR_ID IS NOT NULL ORDER BY ID ASC """
     con = connect()
     cursor = con.cursor()
     res = cursor.execute(query).fetchall()
