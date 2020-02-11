@@ -3,7 +3,7 @@ import logging
 
 import xlrd
 
-from services.ftd import delivery_db_service
+from services.delivery import delivery_db_service
 
 logging.basicConfig(level=logging.INFO)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')

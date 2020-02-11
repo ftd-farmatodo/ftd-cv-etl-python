@@ -2,15 +2,15 @@
 import json
 import logging
 
-from services.ftd import core2_oms_service, sim_db_service
+from services.delivery import core2_oms_service, delivery_db_service
 
 logging.basicConfig(level=logging.INFO)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 
 tracing = []
 
-# consultar las ordenes que se deben reimpulsar a SIM
-rows = sim_db_service.get_orders_to_send_to_sim()
+# consultar las ordenes que se deben reimpulsar a RMS
+rows = delivery_db_service.get_orders_to_send_to_rms()
 logging.info("# de ordenes: " + str(len(rows)))
 
 for count, row in enumerate(rows):
@@ -19,8 +19,7 @@ for count, row in enumerate(rows):
             "orderId": row[0],
             "skipAttemptsValidation":  True
         }
-        logging.info(json.dumps(request))
-        response = core2_oms_service.send_order_to_sim(request)
+        response = core2_oms_service.send_order_to_rms(request)
         record = {
             "orderId": row[0],
             "code":  response['code'],
