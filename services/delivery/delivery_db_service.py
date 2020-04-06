@@ -92,7 +92,6 @@ def get_stores():
 
 def update_store_stock_full_price(connection, store_id, item_id, full_price):
     statement = """UPDATE BDOS.STORE_STOCK SET FULL_PRICE = :fullPrice WHERE STORE_ID = :store_id AND ITEM = :item_id"""
-    connection = get_connection()
     cur = connection.cursor()
     cur.execute(statement, (full_price, store_id, item_id))
     return True
@@ -100,7 +99,6 @@ def update_store_stock_full_price(connection, store_id, item_id, full_price):
 
 def update_store_stock_stock(connection, store_id, item_id, stock):
     statement = """UPDATE BDOS.STORE_STOCK SET STOCK = :stock WHERE STORE_ID = :store_id AND ITEM = :item_id"""
-    connection = get_connection()
     cur = connection.cursor()
     cur.execute(statement, (stock, store_id, item_id))
     return True
