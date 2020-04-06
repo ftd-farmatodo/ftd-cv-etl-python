@@ -109,3 +109,31 @@ def update_store_stock(connection, store_id, item_id, stock, full_price):
     cur = connection.cursor()
     cur.execute(statement, (full_price, stock, store_id, item_id))
     return True
+
+
+def create_log_new_item(connection, item_id, uploaded):
+    statement = "INSERT INTO BDOS.LOG_NEW_ITEM (ITEM, CREATION_DATE, UPLOADED) VALUES (:item_id, SYSDATE, :uploaded)"
+    cur = connection.cursor()
+    cur.execute(statement, (item_id, uploaded))
+    return True
+
+
+def update_log_new_item(connection, items, uploaded):
+    statement = "UPDATE BDOS.LOG_NEW_ITEM SET UPLOADED = :uploaded, CREATION_DATE = SYSDATE WHERE ITEM IN (:items)"
+    cur = connection.cursor()
+    cur.execute(statement, (items, uploaded))
+    return True
+
+
+def create_log_updated_item(connection, item_id, uploaded):
+    statement = "INSERT INTO BDOS.LOG_UPDATED_ITEM (ITEM, CREATION_DATE, UPLOADED) VALUES (:item_id, SYSDATE, :uploaded)"
+    cur = connection.cursor()
+    cur.execute(statement, (item_id, uploaded))
+    return True
+
+
+def update_log_updated_item(connection, items, uploaded):
+    statement = "UPDATE BDOS.LOG_UPDATED_ITEM SET UPLOADED = :uploaded, CREATION_DATE = SYSDATE WHERE ITEM IN (:items)"
+    cur = connection.cursor()
+    cur.execute(statement, (items, uploaded))
+    return True
