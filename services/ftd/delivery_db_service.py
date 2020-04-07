@@ -8,7 +8,7 @@ import cx_Oracle
 os.environ["NLS_LANG"] = "SPANISH_COLOMBIA.AL32UTF8"
 os.chdir(os.path.dirname(__file__))
 
-#ORACLE_CLIENT = str('C:\Oracle\instantclient_12_2')
+#ORACLE_CLIENT = str('C:\Oracle\instantclient_12_2') #
 ORACLE_CLIENT = str("E:\gcloud_repository\CronsPython\datasources\instantclient_12_2") #En el Servidor
 #ORACLE_CLIENT = str("H:\Intraron\Proyectos\Py\Tareas\CronsPython\datasources\instantclient_12_2") #En mi maquina
 ORACLE_USER = "delivery"
