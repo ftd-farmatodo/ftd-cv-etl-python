@@ -20,14 +20,14 @@ for count, row in enumerate(rows):
             "orderId": row[0],
             "skipAttemptsValidation":  True
         }
-        logging.info(json.dumps(request))
+        # logging.info(json.dumps(request))
         response = core2_oms_service.send_order_to_sim(request)
         record = {
             "orderId": row[0],
             "code":  response['code'],
             "message": response['message']
         }
-        logging.info(json.dumps(record))
+        logging.info(" #" + str(count) + ": " + str(json.dumps(record)))
         tracing.append(record)
     except Exception as ex:
         logging.exception(ex)
