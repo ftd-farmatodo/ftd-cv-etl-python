@@ -2,7 +2,7 @@
 import json
 import logging
 
-from services.delivery import core2_oms_service
+from services.delivery import backend3_oms_service
 from services.sim import sim_db_service
 
 logging.basicConfig(level=logging.INFO)
@@ -16,12 +16,7 @@ logging.info("# de ordenes: " + str(len(rows)))
 
 for count, row in enumerate(rows):
     try:
-        request = {
-            "orderId": row[0],
-            "skipAttemptsValidation":  True
-        }
-        # logging.info(json.dumps(request))
-        response = core2_oms_service.send_order_to_sim(request)
+        response = backend3_oms_service.send_order_to_sim(row[0])
         record = {
             "orderId": row[0],
             "code":  response['code'],

@@ -2,7 +2,7 @@
 import json
 import logging
 
-from services.delivery import core2_oms_service, delivery_db_service
+from services.delivery import backend3_oms_service, delivery_db_service
 
 logging.basicConfig(level=logging.INFO)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')
@@ -15,11 +15,7 @@ logging.info("# de ordenes: " + str(len(rows)))
 
 for count, row in enumerate(rows):
     try:
-        request = {
-            "orderId": row[0],
-            "skipAttemptsValidation":  True
-        }
-        response = core2_oms_service.send_order_to_rms(request)
+        response = backend3_oms_service.send_order_to_rms(row[0])
         record = {
             "orderId": row[0],
             "code":  response['code'],
