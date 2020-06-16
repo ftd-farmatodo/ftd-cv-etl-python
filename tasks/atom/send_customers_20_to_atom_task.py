@@ -16,12 +16,12 @@ for count, row in enumerate(rows):
     try:
         request = {
             "customerId": row[0],
-            "sourceCode":  "2.0"
+            "sourceCode": "2.0"
         }
         response = core2_oms_service.send_customer_to_atom(request)
         record = {
             "customerId": row[0],
-            "atomId":  response['atomId'],
+            "atomId": response['atomId'],
             "source": response['source']
         }
         logging.info(json.dumps(record))

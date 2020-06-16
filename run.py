@@ -1,10 +1,13 @@
 import sys
 
+
 def run_rms():
     from tasks.rms import send_orders_to_rms_task
 
+
 def run_sim():
     from tasks.sim import send_orders_to_sim_task
+
 
 switcher = {
 
@@ -19,5 +22,5 @@ def execute_task(argument):
     # Execute the function
     return func()
 
-execute_task(sys.argv[1])
 
+execute_task(sys.argv[1])

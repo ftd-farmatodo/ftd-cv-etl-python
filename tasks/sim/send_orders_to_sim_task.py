@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+import json
 import logging
 import re
 from logging.handlers import TimedRotatingFileHandler
-import json
 
 from services.delivery import backend3_oms_service
 from services.sim import sim_db_service
@@ -42,7 +42,7 @@ for count, row in enumerate(rows):
         response = backend3_oms_service.send_order_to_sim(orderID)
         record = {
             "orderId": orderID,
-            "code":  response["code"],
+            "code": response["code"],
             "message": response["message"]
         }
         log.info("#" + str(count) + ": " + str(json.dumps(record)))

@@ -34,4 +34,3 @@ def insert_location_mapping(connection, source, target):
     cur = connection.cursor()
     cur.execute(statement, (source, target))
     return True
-

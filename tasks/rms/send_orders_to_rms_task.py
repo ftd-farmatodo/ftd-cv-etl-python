@@ -18,7 +18,7 @@ for count, row in enumerate(rows):
         response = backend3_oms_service.send_order_to_rms(row[0])
         record = {
             "orderId": row[0],
-            "code":  response['code'],
+            "code": response['code'],
             "message": response['message']
         }
         logging.info(json.dumps(record))

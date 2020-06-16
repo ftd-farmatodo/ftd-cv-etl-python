@@ -34,4 +34,3 @@ def get_orders_to_send_to_sim():
     res = cursor.execute(query).fetchall()
     con.close()
     return res
-

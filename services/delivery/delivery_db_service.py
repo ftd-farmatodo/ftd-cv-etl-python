@@ -11,8 +11,8 @@ os.chdir(os.path.dirname(__file__))
 ORACLE_CLIENT = str('C:\Oracle\instantclient_12_2')
 ORACLE_USER = "delivery"
 ORACLE_PASS = "Farmat0d0"
-#ORACLE_DSN = "10.193.0.10/delivery"  # develop
-#ORACLE_DSN = "10.232.8.3/delivery"  # sandbox
+# ORACLE_DSN = "10.193.0.10/delivery"  # develop
+# ORACLE_DSN = "10.232.8.3/delivery"  # sandbox
 ORACLE_DSN = "10.193.0.3/delivery"  # production
 
 

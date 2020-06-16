@@ -2,7 +2,7 @@
 import logging
 
 from services.delivery import delivery_db_service
-from services.fts import fts_utility_service_db, fts_ftretail_service_db
+from services.fts import fts_utility_service_db
 
 logging.basicConfig(level=logging.INFO)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')
