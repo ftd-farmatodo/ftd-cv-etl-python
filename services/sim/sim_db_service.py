@@ -4,20 +4,15 @@ import os
 import cx_Oracle
 
 # examples in https://github.com/oracle/python-cx_Oracle
-
 os.environ["NLS_LANG"] = "SPANISH_COLOMBIA.AL32UTF8"
 os.chdir(os.path.dirname(__file__))
 
-# ORACLE_CLIENT = str('C:\Oracle\instantclient_12_2')
-ORACLE_CLIENT = str("E:\gcloud_repository\CronsPython\datasources\instantclient_12_2") #En el servidor de ETL
-#ORACLE_CLIENT = str("H:\Intraron\Proyectos\Py\Tareas\CronsPython\datasources\instantclient_12_2") #En mi maquina
 ORACLE_USER = "sim"
 ORACLE_PASS = "retail16FTD"
 ORACLE_DSN = "sim-scan0-co.farmatodo.com:1521/SIM_SERVICE"
 
 
 def connect():
-    os.chdir(ORACLE_CLIENT)
     conn = cx_Oracle.connect(user=ORACLE_USER, password=ORACLE_PASS, dsn=ORACLE_DSN)
     return conn
 
@@ -30,7 +25,7 @@ def get_orders_to_send_to_sim():
                   and not exists (select 1 from ful_ord fo where fo.cust_order_id = pt.cust_order_id)
                   -- and trunc(transaction_Date_time)<> trunc(sysdate) -- todas las ordenes desde el inicio
                   --and transaction_Date_time between TRUNC(SYSDATE-1) and TRUNC(SYSDATE) -- ordenes del dia anterior
-                  and trunc(transaction_Date_time) = TRUNC(SYSDATE) -- ordenes del dia 
+                  and trunc(transaction_Date_time) >= TRUNC(SYSDATE-0) -- ordenes del dia 
                   -- and transaction_Date_time between to_date('23/03/2020', 'dd/mm/yyyy') and to_date('06/04/2020' ,'dd/mm/yyyy') -- ordenes para un rango de fecha especifico
                   and pt.id = l.transaction_id
                   and l.MESSAGE like 'Invalid customer order ID or invalid customer order state for intended action.'"""

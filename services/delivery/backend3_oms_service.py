@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.INFO)
 logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 
 # BACKEND3_OMS_BASE_URL = 'http://localhost:8080/oms'
-BACKEND3_OMS_BASE_URL = 'https://3-1-0-dot-soap-dot-stunning-base-164402.appspot.com'
+BACKEND3_OMS_BASE_URL = 'https://soap-dot-stunning-base-164402.appspot.com'
 payload = {'skipAttemptsValidation': 'true'}
 headers = {'content-type': 'application/json'}
 
