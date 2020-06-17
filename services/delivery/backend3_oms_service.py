@@ -24,7 +24,7 @@ def send_order_to_rms(request):
         logging.exception(ex)
         return json.dumps({
             "code": "Exception",
-            "message": ex.message
+            "message": str(ex)
         })
 
 
@@ -40,5 +40,5 @@ def send_order_to_sim(request):
         logging.exception(ex)
         return json.dumps({
             "code": "Exception",
-            "message": ex.message
+            "message": str(ex)
         })
