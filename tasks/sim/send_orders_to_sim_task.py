@@ -40,30 +40,13 @@ for count, row in enumerate(rows):
     try:
         orderID = str(row[0])
         response = backend3_oms_service.send_order_to_sim(orderID)
-
-        if orderID.find('-') != -1:
-
-            aux = orderID.find('-')
-            order_id_aux = orderID[0:aux]
-            post = orderID[aux + 1:len(orderID)]
-
-            record = {
-                "orderId": int(order_id_aux),
-                "code": response["code"],
-                "message": response["message"]
-            }
-
-        else:
-
-            record = {
-                "orderId": int(orderID),
-                "code": response["code"],
-                "message": response["message"]
-            }
-
-        #log.info("#" + str(count) + ": " + str(json.dumps(record)))
+        record = {
+            "orderId": int(orderID),
+            "code": response["code"],
+            "message": response["message"]
+        }
+        log.info("#" + str(count) + ": " + str(json.dumps(record)))
     except Exception as ex:
         log.exception(ex)
-        continue
 
 log.info("Finish: send_orders_to_sim_task")
