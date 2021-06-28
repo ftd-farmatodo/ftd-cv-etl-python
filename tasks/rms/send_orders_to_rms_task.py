@@ -15,7 +15,7 @@ logging.info("# de ordenes: " + str(len(rows)))
 
 for count, row in enumerate(rows):
     try:
-        response = backend3_oms_service.send_order_to_rms(row[0])
+        response = backend3_oms_service.send_order_to_rms_col(row[0])
         record = {
             "orderId": row[0],
             "code": response['code'],
