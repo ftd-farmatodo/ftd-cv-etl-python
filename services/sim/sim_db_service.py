@@ -13,7 +13,7 @@ ORACLE_DSN_COL = "sim-scan0-co.farmatodo.com:1521/SIM_SERVICE"
 
 ORACLE_USER_Vzl = "sim"
 ORACLE_PASS_Vzl = "retail16FTD"
-ORACLE_DSN_Vzl = "sim-scan0-co.farmatodo.com:1521/SIM_SERVICE"
+ORACLE_DSN_Vzl = "sim-scan0-ve.farmatodo.com:1521/SIM_SERVICE"
 
 
 
