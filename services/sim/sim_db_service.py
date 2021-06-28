@@ -57,7 +57,7 @@ def get_orders_to_send_to_sim_vzl():
                   and pt.id = l.transaction_id
                   and l.MESSAGE like 'Invalid customer order ID or invalid customer order state for intended action.' """
 
-    con = connect_col()
+    con = connect_vzl()
     cursor = con.cursor()
     res = cursor.execute(query).fetchall()
     con.close()
