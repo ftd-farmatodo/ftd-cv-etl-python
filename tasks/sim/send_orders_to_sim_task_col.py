@@ -15,7 +15,7 @@ log.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # create file handler which logs even debug messages
-fh = TimedRotatingFileHandler('C:/tmp/logs/task.log', when="midnight", interval=1)
+fh = TimedRotatingFileHandler('C:/tmp/logs/task_col.log', when="midnight", interval=1)
 fh.setLevel(logging.INFO)
 fh.setFormatter(formatter)
 fh.suffix = "%Y%m%d"
@@ -33,19 +33,21 @@ log.addHandler(ch)
 log.info("Start: send_orders_to_sim_task")
 
 # consultar las ordenes que se deben reimpulsar a SIM
-rows = sim_db_service.get_orders_to_send_to_sim()
+rows = sim_db_service.get_orders_to_send_to_sim_col()
 log.info("#" + str(len(rows)) + " SIM open customer orders.")
+log.info("task: send_customer_order_to_sim() -> # orders: " + str(len(rows)))
 
 for count, row in enumerate(rows):
     try:
         orderID = str(row[0])
-        response = backend3_oms_service.send_order_to_sim(orderID)
+        response = backend3_oms_service.send_order_to_sim_col(orderID)
         record = {
             "orderId": int(orderID),
             "code": response["code"],
             "message": response["message"]
         }
         log.info("#" + str(count) + ": " + str(json.dumps(record)))
+        log.info("task: send_customer_order_to_sim() -> # records processed: " + str(count + 1))
     except Exception as ex:
         log.exception(ex)
 
