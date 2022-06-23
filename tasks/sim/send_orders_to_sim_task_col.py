@@ -41,6 +41,10 @@ for count, row in enumerate(rows):
     try:
         orderID = str(row[0])
         response = backend3_oms_service.send_order_to_sim_col(orderID)
+
+        if 'APPLICATION_ERROR' in str(response):
+            response = backend3_oms_service.send_order_to_sim_col(orderID)
+
         record = {
             "orderId": int(orderID),
             "code": response["code"],
