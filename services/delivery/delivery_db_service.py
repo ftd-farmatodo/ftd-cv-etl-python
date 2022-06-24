@@ -23,7 +23,7 @@ def get_connection():
 
 
 def get_orders_to_send_to_rms():
-    # return [[6783292]]
+    #return [[11063604]]
     query = """ SELECT DISTINCT ( ORL.order_id ) ,ORL.STATUS
                 FROM   bdom.ORDER_RMS_LOG ORL
                        INNER JOIN (

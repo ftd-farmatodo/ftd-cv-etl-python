@@ -26,18 +26,19 @@ def connect_vzl():
     return conn
 
 
+
 def get_orders_to_send_to_sim_col():
-    #return [[10746021],[10729839],[10760348]]
+    #return [[15086794]]
     query = """select distinct cust_order_id, external_id, TRANSACTION_EXTENDED_ID, transaction_date_time
-                from pos_Transaction pt, pos_transaction_log l
-                where processing_status = 2
-                 and not exists (select 1 from ful_ord fo where fo.cust_order_id = pt.cust_order_id)
-                  -- and trunc(transaction_Date_time)<> trunc(sysdate) -- todas las ordenes desde el inicio
-                  -- and transaction_Date_time between TRUNC(SYSDATE-1) and TRUNC(SYSDATE) -- ordenes del dia anterior
-                 and trunc(transaction_Date_time) >= TRUNC(SYSDATE-2) -- ordenes del dia
-                  --and transaction_Date_time between to_date('01/11/2020', 'dd/mm/yyyy') and to_date('03/11/2020' ,'dd/mm/yyyy') -- ordenes para un rango de fecha especifico
-                  and pt.id = l.transaction_id
-                  and l.MESSAGE like 'Invalid customer order ID or invalid customer order state for intended action.'"""
+               from pos_Transaction pt, pos_transaction_log l
+               where processing_status = 2
+               and not exists (select 1 from ful_ord fo where fo.cust_order_id = pt.cust_order_id)
+               -- and trunc(transaction_Date_time)<> trunc(sysdate) -- todas las ordenes desde el inicio
+               -- and transaction_Date_time between TRUNC(SYSDATE-1) and TRUNC(SYSDATE) -- ordenes del dia anterior
+               and trunc(transaction_Date_time) >= TRUNC(SYSDATE-7) -- ordenes del dia
+               --and transaction_Date_time between to_date('01/11/2020', 'dd/mm/yyyy') and to_date('03/11/2020' ,'dd/mm/yyyy') -- ordenes para un rango de fecha especifico
+               and pt.id = l.transaction_id
+               and l.MESSAGE like 'Invalid customer order ID or invalid customer order state for intended action.'"""
     con = connect_col()
     cursor = con.cursor()
     res = cursor.execute(query).fetchall()
@@ -45,7 +46,7 @@ def get_orders_to_send_to_sim_col():
     return res
 
 def get_orders_to_send_to_sim_vzl():
-    #return [[10746021],[10729839],[10760348]]
+    #return [[1648170]]
     query = """ select distinct cust_order_id, external_id, TRANSACTION_EXTENDED_ID, transaction_date_time
                 from sim.pos_transaction pt, sim.pos_transaction_log l
                 where processing_status = 2
@@ -53,7 +54,7 @@ def get_orders_to_send_to_sim_vzl():
                   -- and trunc(transaction_Date_time)<> trunc(sysdate) -- todas las ordenes desde el inicio
                   -- and transaction_Date_time between to_date('23/03/2020', 'dd/mm/yyyy') and to_date('06/04/2020' ,'dd/mm/yyyy') -- ordenes para un rango de fecha especifico
                   -- and transaction_Date_time between TRUNC(SYSDATE-7) and TRUNC(SYSDATE) -- ordenes del dia anterior
-                  and transaction_Date_time > TRUNC(SYSDATE-7) -- desde x dias atras, hasha hoy
+                  and transaction_Date_time > TRUNC(SYSDATE-2) -- desde x dias atras, hasha hoy
                   and pt.id = l.transaction_id
                   and l.MESSAGE like 'Invalid customer order ID or invalid customer order state for intended action.' """
 

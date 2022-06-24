@@ -69,6 +69,7 @@ def send_order_to_sim_vzl(request):
             post = str(request)[aux+1:len(str(request))]
 
             url = BACKEND3_OMS_BASE_URL_Vzl + '/oms/v3/order/' + order_id + '/sim?postfix=' + post
+            #print(url)
             logging.info("method: send_order_to_sim() -> URL Service: " + url)
             response = requests.post(url, params=payload, headers=headers)
             print('Orden con CMP: ' + request)
