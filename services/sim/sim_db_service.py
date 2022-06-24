@@ -47,16 +47,17 @@ def get_orders_to_send_to_sim_col():
 
 def get_orders_to_send_to_sim_vzl():
     #return [[1648170]]
-    query = """ select distinct cust_order_id, external_id, TRANSACTION_EXTENDED_ID, transaction_date_time
-                from sim.pos_transaction pt, sim.pos_transaction_log l
-                where processing_status = 2
-                  and not exists (select 1 from sim.ful_ord fo where fo.cust_order_id = pt.cust_order_id)
-                  -- and trunc(transaction_Date_time)<> trunc(sysdate) -- todas las ordenes desde el inicio
-                  -- and transaction_Date_time between to_date('23/03/2020', 'dd/mm/yyyy') and to_date('06/04/2020' ,'dd/mm/yyyy') -- ordenes para un rango de fecha especifico
-                  -- and transaction_Date_time between TRUNC(SYSDATE-7) and TRUNC(SYSDATE) -- ordenes del dia anterior
-                  and transaction_Date_time > TRUNC(SYSDATE-2) -- desde x dias atras, hasha hoy
-                  and pt.id = l.transaction_id
-                  and l.MESSAGE like 'Invalid customer order ID or invalid customer order state for intended action.' """
+    query = """ select * from (
+                select a.cust_order_id, a.external_id, a.TRANSACTION_EXTENDED_ID, a.transaction_date_time,row_number() over(partition by a.cust_order_id order by a.transaction_date_time) N
+                from pos_transaction a
+                where
+                a.processing_status=2 and trunc(a.transaction_date_time)>=trunc(sysdate-7) and
+                not a.cust_order_id is null and
+                not cust_order_id in
+                (
+                    select cust_order_id from ful_ord)
+                order by trunc(cust_order_id)
+            ) where n=1"""
 
     con = connect_vzl()
     cursor = con.cursor()
